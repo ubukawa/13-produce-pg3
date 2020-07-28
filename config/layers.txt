@@ -1,17 +1,5 @@
-{
-  host: localhost
-  unixUser: test\taro.ubukawa
-  wtpsThreshold: 50
-  monitorPeriod: 10
-  Z: 6
-  concurrent: 1
-  maxRetries: 5
-  retryDelay: 5000
-  port: 5432
-  dbUser: postgress
-  dbPassword: ABCDEFG
-  relations: [
  sde_pg_3::osm_base::barrier_lines
+ sde_pg_3::osm_base::building_polygons
  sde_pg_3::osm_base::ferries_lines
  sde_pg_3::osm_base::heritage_area_p_points
  sde_pg_3::osm_base::highway_areas_polygons
@@ -21,9 +9,11 @@
  sde_pg_3::osm_base::landuse_points_points
  sde_pg_3::osm_base::landuse_urban_polygons
  sde_pg_3::osm_base::major_roads_lines
+ sde_pg_3::osm_base::medium_roads_lines
  sde_pg_3::osm_base::minor_roads_lines
  sde_pg_3::osm_base::other_area_p_points
  sde_pg_3::osm_base::other_buildings_polygons
+ sde_pg_3::osm_base::other_roads_lines
  sde_pg_3::osm_base::places_areas_polygons
  sde_pg_3::osm_base::places_points
  sde_pg_3::osm_base::pois_heritage_points
@@ -36,30 +26,14 @@
  sde_pg_3::osm_base::pois_worship_points
  sde_pg_3::osm_base::public_area_p_points
  sde_pg_3::osm_base::railways_lines
+ sde_pg_3::osm_base::runways_areas_polygons
  sde_pg_3::osm_base::runways_lines
  sde_pg_3::osm_base::services_area_p_points
  sde_pg_3::osm_base::services_areas_polygons
+ sde_pg_3::osm_base::special_roads_lines
  sde_pg_3::osm_base::transport_area_p_points
  sde_pg_3::osm_base::transport_areas_polygons
  sde_pg_3::osm_base::water_polygons
  sde_pg_3::osm_base::waterways_large_lines
  sde_pg_3::osm_base::waterways_small_lines
  sde_pg_3::osm_base::worship_area_p_points
-
-  ]
-  defaultDate: 2020-07-20
-  mbtilesDir: /data/mbtiles/osm_tile
-  propertyBlacklist: [
-    description
-    fid
-    fid_1
-    globalid
-    id
-    objectid
-    objectid_1
-    osm_id
-    pseudoarea
-  ]
-  spinnerString: 18
-  fetchSize: 100
-}

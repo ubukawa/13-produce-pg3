@@ -135,7 +135,7 @@ const lut = {
     }
     return f
   },
-  osm_planet_landuse_natural_large: f => {
+  landuse_natural_large_polygons: f => {
     f.tippecanoe = {
       layer: 'nature',
       minzoom: flap(f, 15),
@@ -166,16 +166,16 @@ const lut = {
         f.properties.landuse = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_landuse_natural_large: ${f.properties.fclass}`)
+        throw new Error(`landuse_natural_large_polygons: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return f
   },
-  osm_planet_landuse_natural_medium: f => {
+  landuse_natural_medium_polygons: f => {
     f.tippecanoe = {
       layer: 'nature',
-      minzoom: 8,
-//      minzoom: flap(f, 15),
+//      minzoom: 8,
+      minzoom: flap(f, 15),
       maxzoom: 15
     }
     switch (f.properties.fclass) {
@@ -191,12 +191,12 @@ const lut = {
         f.properties.natural = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_landuse_natural_medium: ${f.properties.fclass}`)
+        throw new Error(`landuse_natural_medium_polygons: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return f
   },
-  // 2. water
+  // X. other
   custom_planet_ocean_l08: f => {
     f.tippecanoe = {
       layer: 'ocean',
@@ -229,10 +229,11 @@ const lut = {
     } 
     return f
   },
-  osm_planet_water: f => {
+ // 2. water
+  water_polygons: f => {
     switch (f.properties.fclass) {
       case 'water':
-      case 'glacier':
+//      case 'glacier': 
       case 'wetland':
         f.properties.natural = f.properties.fclass
         break
@@ -260,7 +261,7 @@ const lut = {
     }
     return f
   },
-  osm_planet_waterways_small: f => {
+  waterways_small_lines: f => {
     f.tippecanoe = {
       layer: 'water',
       minzoom: 7,
@@ -270,7 +271,7 @@ const lut = {
     delete f.properties['fclass']
     return f
   },
-  osm_planet_waterways_large: f => {
+  waterways_large_lines: f => {
     f.tippecanoe = {
       layer: 'water',
       minzoom: 10,
@@ -378,7 +379,7 @@ const lut = {
     return f
   },
   // 4. road
-  osm_planet_major_roads: f => {
+  major_roads_lines: f => {
     f.properties.highway = f.properties.fclass
     f.tippecanoe = {
       layer: 'road',
@@ -388,7 +389,7 @@ const lut = {
     delete f.properties['fclass']
     return f
   },
-  osm_planet_minor_roads: f => {
+  minor_roads_lines: f => {
     f.properties.highway = f.properties.fclass
     f.tippecanoe = {
       layer: 'road',
@@ -399,10 +400,10 @@ const lut = {
     return f
   },
   // 5. railway
-  osm_planet_railways: f => {
+  railways_lines: f => {
     f.tippecanoe = {
       layer: 'railway',
-      minzoom: 19,
+      minzoom: 9,
       maxzoom: 15
     }
     f.properties.railway = f.properties.fclass
@@ -410,7 +411,7 @@ const lut = {
     return f
   },
   // 6. route
-  osm_planet_ferries: f => {
+  ferries_lines: f => {
     f.tippecanoe = {
       layer: 'ferries',
       minzoom: 6,
@@ -421,7 +422,7 @@ const lut = {
     return f
   },
   // 7. structure
-  osm_planet_runways: f => {
+  runways_lines: f => {
     f.tippecanoe = {
       layer: 'structure',
       minzoom: 11,
@@ -431,43 +432,17 @@ const lut = {
     delete f.properties['fclass']
     return f
   },
-  osm_planet_highway_areas: f => {
+  highway_areas_polygons: f => {
     f.tippecanoe = {
       layer: 'structure',
       minzoom: flap(f, 10),
       maxzoom: 15
     }
-    switch (f.properties.fclass) {
-      case 'airport':
-      case 'bus_station':
-      case 'ferry_terminal':
-        f.properties.amenity = f.properties.fclass
-        break
-      case 'aerodrome':
-      case 'airfield':
-      case 'helipad':
-      case 'aeroway':
-        f.properties.aeroway = f.properties.fclass
-        break
-      case 'station':
-      case 'halt':
-      case 'tram_stop':
-        f.properties.railway = f.properties.fclass
-        break
-      case 'stop_position':
-      case 'pier':
-        f.properties.public_transport = f.properties.fclass
-        break
-      case 'bus_stop':
-        f.properties.highway = f.properties.fclass
-        break
-      default:
-        throw new Error(`osm_planet_transport_areas: ${f.properties.fclass}`)
-    }
+    f.properties.highway = f.properties.fclass
     delete f.properties['fclass']
     return f
   },
-  osm_planet_transport_areas: f => {
+  transport_areas_polygons: f => {
     f.tippecanoe = {
       layer: 'structure',
       minzoom: flap(f, 10),
@@ -485,6 +460,7 @@ const lut = {
       case 'airfield':
       case 'helipad':
       case 'aeroway':
+      case 'apron':
         f.properties.aeroway = f.properties.fclass
         break
       case 'station':
@@ -498,6 +474,9 @@ const lut = {
       case 'bus_stop':
         f.properties.highway = f.properties.fclass
         break
+      case 'pier':
+        f.properties.landuse = f.properties.fclass
+        break
       default:
         throw new Error(`osm_planet_transport_areas: ${f.properties.fclass}`)
     }
@@ -505,17 +484,17 @@ const lut = {
     return f
   },
   // 8. building
-  osm_planet_landuse_urban: f => {
+  landuse_urban_polygons: f => {
     f.tippecanoe = {
-      layer: 'area_building',
-      minzoom: 12,
+      layer: 'lu_urban',
+      minzoom: 10,
       maxzoom: 15
     }
     f.properties.landuse = f.properties.fclass
     delete f.properties['fclass']
     return f
   },
-  osm_planet_other_buildings: f => {
+  other_buildings_polygons: f => {
     f.tippecanoe = {
       layer: 'area_building_o',
       minzoom: 12,
@@ -526,7 +505,7 @@ const lut = {
     return f
   },
   // 9. place
-  osm_planet_pois_heritage: f => {
+  pois_heritage_points: f => {
     switch (f.properties.fclass) {
       case 'theatre':
       case 'grave_yard':
@@ -541,16 +520,16 @@ const lut = {
       case 'fort':
       case 'archaeological_site':
       case 'ruins':
-      case 'cemetry':
+      case 'cemetery':
         f.properties.historic = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_heritage: ${f.properties.fclass}`)
+        throw new Error(`pois_heritage_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_other: f => {
+  pois_other_points: f => {
     switch (f.properties.fclass) {
       case 'golf_course':
       case 'water_park':
@@ -613,12 +592,12 @@ const lut = {
         f.properties.landuse = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_other: ${f.properties.fclass}`)
+        throw new Error(`pois_other_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_public: f => {
+  pois_public_points: f => {
     switch (f.properties.fclass) {
       case 'public_building':
       case 'townhall':
@@ -637,12 +616,12 @@ const lut = {
         f.properties.office = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_public: ${f.properties.fclass}`)
+        throw new Error(`pois_public_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_services: f => {
+  pois_services_points: f => {
     switch (f.properties.fclass) {
       case 'shelter':
       case 'school':
@@ -654,6 +633,11 @@ const lut = {
       case 'cafe':
       case 'food_court':
       case 'biergarten':
+      case 'dentist':
+      case 'doctor':
+      case 'clinic':
+      case 'veterinary':
+      case 'kindergarten':
       case 'nightclub':
       case 'pub':
       case 'bar':
@@ -674,28 +658,29 @@ const lut = {
         f.properties.tourism = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_services: ${f.properties.fclass}`)
+        throw new Error(`pois_services_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_traffic: f => {
+  pois_traffic_points: f => {
     switch (f.properties.fclass) {
       case 'fuel':
         f.properties.amenity = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_traffic: ${f.properties.fclass}`)
+        throw new Error(`pois_traffic_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_transport: f => {
+  pois_transport_points: f => {
     switch (f.properties.fclass) {
       case 'airport':
       case 'bus_station':
       case 'ferry_terminal':
       case 'parking':
+      case 'harbour':
         f.properties.amenity = f.properties.fclass
         break
       case 'aerodrome':
@@ -716,12 +701,12 @@ const lut = {
         f.properties.highway = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_transport: ${f.properties.fclass}`)
+        throw new Error(`pois_transport_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_water: f => {
+  pois_water_points: f => {
     switch (f.properties.fclass) {
       case 'drinking_water':
         f.properties.amenity = f.properties.fclass
@@ -734,12 +719,12 @@ const lut = {
         f.properties.man_made = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_water: ${f.properties.fclass}`)
+        throw new Error(`pois_water_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  osm_planet_pois_worship: f => {
+  pois_worship_points: f => {
     switch (f.properties.fclass) {
       case 'christian':
       case 'jewish':
@@ -749,10 +734,11 @@ const lut = {
       case 'taoist':
       case 'shintoist':
       case 'sikh':
+      case 'place_of_worship':
         f.properties.religion = f.properties.fclass
         break
       default:
-        throw new Error(`osm_planet_pois_worship: ${f.properties.fclass}`)
+        throw new Error(`pois_worship_points: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
     return osmPoi(f)
@@ -802,16 +788,16 @@ const lut = {
     f.properties._source = 'un_global_pois'
     return f
   },
-  osm_planet_worship_area_p: f => {
+  worship_area_p_points: f => {
     f.tippecanoe = {
       layer: 'worship',
       minzoom: 13,
       maxzoom: 15
     }
-    f.properties._source = 'osm_planet_worship_area_p'
+    f.properties._source = 'worship_area_p_points'
     return f
  },
-  osm_planet_barrier_lines: f => {
+  barrier_lines: f => {
     f.tippecanoe = {
       layer: 'nature',
       minzoom: 10,
@@ -819,16 +805,16 @@ const lut = {
     }
     return f
  },
-  osm_planet_heritage_area_p: f => {
+  heritage_area_p_points: f => {
     f.tippecanoe = {
       layer: 'heritage',
       minzoom: 15,
       maxzoom: 15
     }
-    f.properties._source = 'osm_planet_heritage_area_p'
+    f.properties._source = 'heritage_area_p_points'
     return f 
 },
-  osm_planet_landuse_park_reserve: f => {
+  landuse_park_reserve_polygons: f => {
     f.tippecanoe = {
       layer: 'area_park',
       minzoom: 7,
@@ -836,7 +822,7 @@ const lut = {
     }
     return f 
 },
-  osm_planet_landuse_points: f => {
+  landuse_points_points: f => {
     f.tippecanoe = {
       layer: 'nature',
       minzoom: 10,
@@ -844,25 +830,25 @@ const lut = {
     }
     return f 
 },
-  osm_planet_other_area_p: f => {
+  other_area_p_points: f => {
     f.tippecanoe = {
       layer: 'otherarea',
       minzoom: 15,
       maxzoom: 15
     }
-    f.properties._source = 'osm_planet_other_area_p'
+    f.properties._source = 'other_area_p_points'
     return f 
 },
-  osm_planet_places: f => {
+  places_points: f => {
     f.tippecanoe = {
       layer: 'place',
       minzoom: 7,
       maxzoom: 15
     }
-    f.properties._source = 'osm_planet_places'
+    f.properties._source = 'places_points'
     return f 
 },
-  osm_planet_places_areas: f => {
+  places_areas_polygons: f => {
     f.tippecanoe = {
       layer: 'areaa',
       minzoom: 10,
@@ -870,15 +856,7 @@ const lut = {
     }
     return f 
 },
-  osm_planet_pois_services: f => {
-    f.tippecanoe = {
-      layer: 'service',
-      minzoom: 13,
-      maxzoom: 15
-    }
-    return f 
-},
-  osm_planet_public_area_p: f => {
+  public_area_p_points: f => {
     f.tippecanoe = {
       layer: 'public',
       minzoom: 11,
@@ -886,7 +864,15 @@ const lut = {
     }
     return f 
 },
-  osm_planet_service_area_p: f => {
+  transport_area_p_points: f => {
+    f.tippecanoe = {
+      layer: 'transareap',
+      minzoom: 11,
+      maxzoom: 15
+    }
+    return f 
+},
+  services_area_p_points: f => {
     f.tippecanoe = {
       layer: 'serviceap',
       minzoom: 13,
@@ -894,7 +880,7 @@ const lut = {
     }
     return f 
 },
-  osm_planet_service_areas: f => {
+  services_areas_polygons: f => {
     f.tippecanoe = {
       layer: 'servicea',
       minzoom: 13,
