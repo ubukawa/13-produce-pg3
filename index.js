@@ -210,7 +210,7 @@ SELECT column_name FROM information_schema.columns
       sql = `
 DECLARE cur CURSOR FOR 
 WITH 
-  envelope AS (SELECT ST_MakeEnvelope(${mbbox.join(', ')}) AS geom)
+  envelope AS (SELECT ST_MakeEnvelope(${bbox.join(', ')}) AS geom)
 SELECT 
   ${cols.toString()}
 FROM ${schema}.${table}
