@@ -1,0 +1,90 @@
+{
+  host: localhost
+  unixUser: test\taro.ubukawa
+  wtpsThreshold: 50
+  monitorPeriod: 10
+  Z: 6
+  concurrent: 1
+  maxRetries: 5
+  retryDelay: 5000
+  port: 5432
+  dbUser: postgress
+  dbPassword: ABCDEFG
+  relations: [
+    un_base::custom_ne_rivers_lakecentrelines
+    un_base::custom_planet_land_a
+    un_base::custom_planet_land_a_l08
+    un_base::custom_planet_ocean
+    un_base::custom_planet_ocean_l08
+    un_base::custom_unmap_0_bnda_a1
+    un_base::custom_unmap_0_bnda_a2
+    un_base::custom_unmap_0_bndl
+    un_base::un_global_places
+    un_base::un_global_pois
+    un_base::un_minusca_pois
+    un_base::un_mission_lc_ls
+    un_base::un_unmik_bnda_a2
+    un_base::un_unmik_bnda_a3
+    un_base::un_unmik_bndl
+    un_base::unhq_bnda05_a1
+    un_base::unhq_bnda05_cty
+    un_base::unhq_bnda25_cty
+    un_base::unhq_bnda_a1
+    un_base::unhq_bnda_a2
+    un_base::unhq_bnda_cty
+    un_base::unhq_bndl
+    un_base::unhq_bndl05
+    un_base::unhq_bndl25
+    un_base::unhq_phyp
+    un_base::unhq_popp
+    osm_base::osm_planet_worship_area_p
+    osm_base::osm_planet_barrier_lines
+    osm_base::osm_planet_ferries
+    osm_base::osm_planet_heritage_area_p
+    osm_base::osm_planet_highway_areas
+    osm_base::osm_planet_landuse_natural_large
+    osm_base::osm_planet_landuse_natural_medium
+    osm_base::osm_planet_landuse_park_reserve
+    osm_base::osm_planet_landuse_points
+    osm_base::osm_planet_landuse_urban
+    osm_base::osm_planet_major_roads
+    osm_base::osm_planet_minor_roads
+    osm_base::osm_planet_other_area_p
+    osm_base::osm_planet_other_buildings
+    osm_base::osm_planet_places
+    osm_base::osm_planet_places_areas
+    osm_base::osm_planet_pois_heritage
+    osm_base::osm_planet_pois_other
+    osm_base::osm_planet_pois_public
+    osm_base::osm_planet_pois_services
+    osm_base::osm_planet_pois_traffic
+    osm_base::osm_planet_pois_transport
+    osm_base::osm_planet_pois_water
+    osm_base::osm_planet_pois_worship
+    osm_base::osm_planet_public_area_p
+    osm_base::osm_planet_railways
+    osm_base::osm_planet_runways
+    osm_base::osm_planet_services_area_p
+    osm_base::osm_planet_services_areas
+    osm_base::osm_planet_transport_areas
+    osm_base::osm_planet_transport_area_p
+    osm_base::osm_planet_water
+    osm_base::osm_planet_waterways_large
+    osm_base::osm_planet_waterways_small
+  ]
+  defaultDate: 2020-02-01
+  mbtilesDir: /data/mbtiles/prototype11
+  propertyBlacklist: [
+    description
+    fid
+    fid_1
+    globalid
+    id
+    objectid
+    objectid_1
+    osm_id
+    pseudoarea
+  ]
+  spinnerString: 18
+  fetchSize: 100
+}

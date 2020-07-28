@@ -1,0 +1,36 @@
+{
+  host: localhost
+  unixUser: test\taro.ubukawa
+  wtpsThreshold: 50
+  monitorPeriod: 10
+  Z: 6
+  concurrent: 1
+  maxRetries: 5
+  retryDelay: 5000
+  port: 5432
+  dbUser: postgress
+  dbPassword: ABCDEFG
+  relations: [
+    sde_pg_3::osm_base::osm_planet_landuse_natural_large
+    sde_pg_3::osm_base::osm_planet_landuse_natural_medium
+    sde_pg_3::osm_base::osm_planet_transport_areas
+    sde_pg_3::osm_base::osm_planet_landuse_urban
+    sde_pg_3::osm_base::osm_planet_major_roads
+    sde_pg_3::osm_base::osm_planet_minor_roads
+  ]
+  defaultDate: 2020-07-20
+  mbtilesDir: /data/mbtiles/osm_tile
+  propertyBlacklist: [
+    description
+    fid
+    fid_1
+    globalid
+    id
+    objectid
+    objectid_1
+    osm_id
+    pseudoarea
+  ]
+  spinnerString: 18
+  fetchSize: 100
+}
