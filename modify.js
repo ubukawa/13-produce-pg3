@@ -119,25 +119,9 @@ const osmPoi = (f) => {
 
 const lut = {
   // 1. nature
-  un_mission_lc_ls: f => {
-    f.tippecanoe = {
-      layer: 'landcover',
-      minzoom: 9,
-      maxzoom: 15
-    }
-    return f
-  },
-  un_glc30_global_lc_ms: f => {
-    f.tippecanoe = {
-      layer: 'landcover',
-      minzoom: 6,
-      maxzoom: 9
-    }
-    return f
-  },
   landuse_natural_large_polygons: f => {
     f.tippecanoe = {
-      layer: 'nature',
+      layer: 'nature-l',
       minzoom: flap(f, 15),
       maxzoom: 15
     }
@@ -173,7 +157,7 @@ const lut = {
   },
   landuse_natural_medium_polygons: f => {
     f.tippecanoe = {
-      layer: 'nature',
+      layer: 'nature-m',
 //      minzoom: 8,
       minzoom: flap(f, 15),
       maxzoom: 15
@@ -194,39 +178,6 @@ const lut = {
         throw new Error(`landuse_natural_medium_polygons: ${f.properties.fclass}`)
     }
     delete f.properties['fclass']
-    return f
-  },
-  // X. other
-  custom_planet_ocean_l08: f => {
-    f.tippecanoe = {
-      layer: 'ocean',
-      minzoom: 6,
-      maxzoom: 7
-    }
-    return f
-  },
-  custom_planet_ocean: f => {
-    f.tippecanoe = {
-      layer: 'ocean',
-      minzoom: 7,
-      maxzoom: 15
-    } 
-    return f
-  },
-  custom_planet_land_a_l08: f => {
-    f.tippecanoe = {
-      layer: 'landmass',
-      minzoom: 6,
-      maxzoom: 8
-    }
-    return f
-  },
-  custom_planet_land_a: f => {
-    f.tippecanoe = {
-      layer: 'landmass',
-      minzoom: 8,
-      maxzoom: 15
-    } 
     return f
   },
  // 2. water
@@ -253,14 +204,6 @@ const lut = {
     delete f.properties['fclass']
     return f
   },
-  custom_ne_rivers_lakecentrelines: f => {
-    f.tippecanoe = {
-      layer: 'water',
-      minzoom: 6,
-      maxzoom: 7
-    }
-    return f
-  },
   waterways_small_lines: f => {
     f.tippecanoe = {
       layer: 'water',
@@ -274,108 +217,11 @@ const lut = {
   waterways_large_lines: f => {
     f.tippecanoe = {
       layer: 'water',
-      minzoom: 10,
+      minzoom: 11,
       maxzoom: 15
     }
     f.properties.waterway = f.properties.fclass
     delete f.properties['fclass']
-    return f
-  },
-  // 3. boundary
-  unhq_bndl: f => {
-    f.tippecanoe = {
-      layer: 'hq_bnd',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    return f
-  },
- unhq_bnda_a1: f => {
-    f.tippecanoe = {
-      layer: 'hq_bnd',
-      minzoom: 6,
-      maxzoom: 8
-    }
-    return f
-  },
-  unhq_bnda_a2: f => {
-    f.tippecanoe = {
-      layer: 'hq_bnd',
-      minzoom: 8,
-      maxzoom: 15
-    }
-    return f
-  },
-  custom_unmap_0_bnda_a1: f => {
-    f.tippecanoe = {
-      layer: 'c_bnd',
-      minzoom: 6,
-      maxzoom: 8
-    }
-    return f
-  },
-  custom_unmap_0_bnda_a2: f => {
-    f.tippecanoe = {
-      layer: 'c_bnd',
-      minzoom: 8,
-      maxzoom: 15
-    }
-    return f
-  },
-  custom_unmap_0_bndl: f => {
-    f.tippecanoe = {
-      layer: 'c_bnd',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    return f
-  },
-  un_unmik_bnda_a3: f => {
-    f.tippecanoe = {
-      layer: 'mik_bnd',
-      minzoom: 8,
-      maxzoom: 15
-    }
-    return f
-  },
-  un_unmik_bndl: f => {
-    f.tippecanoe = {
-      layer: 'mik_bnd',
-      minzoom: 7,
-      maxzoom: 15
-    }
-    return f
-  },
-  un_unvmc_igac_bnda_a3_rural_units: f => {
-    f.tippecanoe = {
-      layer: 'vmc_bnd',
-      minzoom: 11,
-      maxzoom: 15
-    }
-    return f
-  },
-  un_unvmc_igac_bndl: f => {
-    f.tippecanoe = {
-      layer: 'vmc_bnd',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    return f
-  },
-  unhq_bnda05_cty: f => {
-    f.tippecanoe = {
-      layer: 'bnd_cty',
-      minzoom: 9,
-      maxzoom: 11
-    }
-    return f
-  },
-  unhq_bnda25_cty: f => {
-    f.tippecanoe = {
-      layer: 'bnd_cty',
-      minzoom: 7,
-      maxzoom: 8
-    }
     return f
   },
   // 4. road
@@ -491,6 +337,16 @@ const lut = {
       maxzoom: 15
     }
     f.properties.landuse = f.properties.fclass
+    delete f.properties['fclass']
+    return f
+  },
+  buildings_polygons: f => {
+    f.tippecanoe = {
+      layer: 'building',
+      minzoom: 12,
+      maxzoom: 15
+    }
+    f.properties.building = f.properties.fclass
     delete f.properties['fclass']
     return f
   },
