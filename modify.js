@@ -599,51 +599,6 @@ const lut = {
     delete f.properties['fclass']
     return osmPoi(f)
   },
-  unhq_popp: f => {
-    f.tippecanoe = {
-      layer: 'place',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    f.properties._source = 'unhq_popp'
-    return f
-  },
-  un_global_places: f => {
-    f.tippecanoe = {
-      layer: 'place',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    f.properties._source = 'un_global_places'
-    return f
-  },
-  unhq_phyp: f => {
-    f.tippecanoe = {
-      layer: 'label',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    f.properties._source = 'unhq_phyp'
-    return f
-  },
-  un_minusca_pois: f => {
-    f.tippecanoe = {
-      layer: 'poi',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    f.properties._source = 'un_minusca_pois'
-    return f
-  },
-  un_global_pois: f => {
-    f.tippecanoe = {
-      layer: 'poi',
-      minzoom: 6,
-      maxzoom: 15
-    }
-    f.properties._source = 'un_global_pois'
-    return f
-  },
   worship_area_p_points: f => {
     f.tippecanoe = {
       layer: 'worship',
