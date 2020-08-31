@@ -13,6 +13,7 @@
   relations: [
  sde_pg_3::osm_base::barrier_lines
  sde_pg_3::osm_base::ferries_lines
+ sde_pg_3::osm_base::building_polygons
  sde_pg_3::osm_base::heritage_area_p_points
  sde_pg_3::osm_base::highway_areas_polygons
  sde_pg_3::osm_base::landuse_natural_large_polygons

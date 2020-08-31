@@ -200,7 +200,7 @@ const dumpAndModify = async (bbox, relation, downstream, moduleKey) => {
       if (err) throw err
       let sql = `
 SELECT column_name FROM information_schema.columns 
-  WHERE table_name='${schema}' AND schema_name='${table}' ORDER BY ordinal_position`
+  WHERE table_name='${schema}.${table}' ORDER BY ordinal_position`
       let cols = await client.query(sql)
       cols = cols.rows.map(r => r.column_name).filter(r => r !== 'geom')
       cols = cols.filter(v => !propertyBlacklist.includes(v))
@@ -305,7 +305,7 @@ const queueTasks = () => {
   let moduleKeys = Object.keys(modules)
   moduleKeys.sort((a, b) => modules[b].score - modules[a].score)
 //  for (let moduleKey of moduleKeys) {
-  for (let moduleKey of ['6-37-31', '6-38-31', '6-37-32', '6-38-32']) { //// TEMP
+  for (let moduleKey of ['6-34-30','6-34-31','6-34-32','6-34-33','6-35-30','6-35-31','6-35-32','6-35-33', '6-36-30','6-36-31','6-36-32','6-36-33', '6-37-30', '6-37-31', '6-37-32', '6-37-33', '6-38-30', '6-38-31', '6-38-32', '6-38-33']) { //// TEMP
     //if (modules[moduleKey].score > 0) {
       queue.push({
         moduleKey: moduleKey
