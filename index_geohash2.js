@@ -148,40 +148,7 @@ const noPressureWrite = (downstream, f) => {
   })
 }
 
-const fetch = (client, database, table, downstream) => {
-  return new Promise((resolve, reject) => {
-    let count = 0
-    let features = []
-    client.query(new Query(`FETCH ${fetchSize} FROM cur`))
-    .on('row', row => {
-      let f = {
-        type: 'Feature',
-        properties: row,
-        geometry: JSON.parse(row.st_asgeojson)
-      }
-      delete f.properties.st_asgeojson
-      f.properties._database = database
-      f.properties._table = table
-      count++
-      f = modify(f)
-      if (f) features.push(f)
-    })
-    .on('error', err => {
-      console.error(err.stack)
-      reject()
-    })
-    .on('end', async () => {
-      for (f of features) {
-        try {
-          await noPressureWrite(downstream, f)
-        } catch (e) {
-          reject(e)
-        }
-      }
-      resolve(count)
-    })
-  })
-}
+
 
 const dumpAndModify = async (bbox, relation, downstream, moduleKey) => {
   return new Promise((resolve, reject) => {
@@ -216,13 +183,32 @@ FROM ${schema}.${table}
 JOIN envelope ON ${schema}.${table}.geom && envelope.geom
 WHERE ST_GeoHash(${schema}.${table}.geom,2) = ST_GeoHash(envelope.geom,2)
 ` 
+      let count = 0
+      let features = []
       cols = await client.query(sql)
-      try {
-        while (await fetch(client, database, table, downstream) !== 0) {}
-      } catch (e) {
-        reject(e)
+    .on('row', row => {
+      let f = {
+        type: 'Feature',
+        properties: row,
+        geometry: JSON.parse(row.st_asgeojson)
       }
-      await client.query(`COMMIT`)
+      delete f.properties.st_asgeojson
+      f.properties._database = database
+      f.properties._table = table
+      count++
+      f = modify(f)
+      if (f) features.push(f)
+      try {
+          await noPressureWrite(downstream, f)
+        } catch (e) {
+          reject(e)
+        }
+    })
+    .on('error', err => {
+      console.error(err.stack)
+      reject()
+    })
+    .on('end', async () => {
       winston.info(`${iso()}: finished ${relation} of ${moduleKey}`)
       release()
       resolve()
