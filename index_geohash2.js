@@ -209,6 +209,15 @@ WHERE ST_GeoHash(${schema}.${table}.geom,2) = ST_GeoHash(envelope.geom,2)
       reject()
     })
     .on('end', async () => {
+      for (f of features) {
+        try {
+          await noPressureWrite(downstream, f)
+        } catch (e) {
+          reject(e)
+        }
+      }
+      resolve(count)
+    })
       winston.info(`${iso()}: finished ${relation} of ${moduleKey}`)
       release()
       resolve()
