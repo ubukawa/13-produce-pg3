@@ -173,7 +173,7 @@ SELECT column_name FROM information_schema.columns
       cols = cols.filter(v => !propertyBlacklist.includes(v))
       // ST_AsGeoJSON(ST_Intersection(ST_MakeValid(${table}.geom), envelope.geom))
       cols.push(`ST_AsGeoJSON(${schema}.${table}.geom)`)
-      await client.query(`BEGIN`)
+
       sql = `
 WITH 
   envelope AS (SELECT ST_MakeEnvelope(${bbox.join(', ')}, 4326) AS geom)
@@ -185,7 +185,7 @@ WHERE ST_GeoHash(${schema}.${table}.geom,2) = ST_GeoHash(envelope.geom,2)
 ` 
       let count = 0
       let features = []
-      cols = await client.query(sql)
+      cols = await client.query(new Query(`${sql}`))
     .on('row', row => {
       let f = {
         type: 'Feature',
@@ -199,7 +199,7 @@ WHERE ST_GeoHash(${schema}.${table}.geom,2) = ST_GeoHash(envelope.geom,2)
       f = modify(f)
       if (f) features.push(f)
       try {
-          await noPressureWrite(downstream, f)
+          noPressureWrite(downstream, f)
         } catch (e) {
           reject(e)
         }
@@ -207,16 +207,6 @@ WHERE ST_GeoHash(${schema}.${table}.geom,2) = ST_GeoHash(envelope.geom,2)
     .on('error', err => {
       console.error(err.stack)
       reject()
-    })
-    .on('end', async () => {
-      for (f of features) {
-        try {
-          await noPressureWrite(downstream, f)
-        } catch (e) {
-          reject(e)
-        }
-      }
-      resolve(count)
     })
       winston.info(`${iso()}: finished ${relation} of ${moduleKey}`)
       release()
